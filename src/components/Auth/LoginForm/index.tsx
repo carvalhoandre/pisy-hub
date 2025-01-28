@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 
 import Login from 'actions/login';
 
@@ -15,7 +14,11 @@ const LoginForm: Component = () => {
 	});
 
 	React.useEffect(() => {
-		if (state.ok) window.location.href = '/cms';
+		if (!state.ok || !state.data) return;
+
+		const redirectPath = state.data?.active ? '/cms' : '/auth/confirmarConta';
+
+		window.location.href = redirectPath;
 	}, [state.ok]);
 
 	return (

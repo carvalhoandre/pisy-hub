@@ -1,14 +1,10 @@
 'use server';
 
-import { cookies } from 'next/headers';
-
 import { LoginResponse } from './types';
 
 import { postLogin } from 'core/services/auth';
 import { validateRequiredField } from 'core/helpers/actionsValidations/login';
-import { getHoursInSeconds } from 'core/utils/time';
-
-const ONE_DAY_IN_HOURS = 24;
+import { setCookiesStore } from 'core/helpers/cookies/store';
 
 const Login = async (_: any, formData: FormData): Promise<LoginResponse> => {
 	try {
@@ -38,17 +34,11 @@ const Login = async (_: any, formData: FormData): Promise<LoginResponse> => {
 			};
 		}
 
-		const cookiesStore = await cookies();
-		cookiesStore.set('token', data.access_token, {
-			httpOnly: true,
-			secure: true,
-			sameSite: 'lax',
-			maxAge: getHoursInSeconds(ONE_DAY_IN_HOURS),
-		});
+		setCookiesStore(data.access_token);
 
 		return {
 			ok: true,
-			data,
+			data: data.user,
 		};
 	} catch (error: unknown) {
 		return {

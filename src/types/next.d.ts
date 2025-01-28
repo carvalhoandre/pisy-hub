@@ -10,7 +10,7 @@ declare global {
 		searchParams: Promise<SearchParams>;
 	}) => React.ReactNode | Promise<React.ReactNode>;
 
-	type PasswordResetSearchParams = { key: string; login: string };
+	type PasswordResetSearchParams = { key: string; id: string };
 
 	export type ActionResponse<T> = {
 		ok: boolean;

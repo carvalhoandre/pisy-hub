@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import { NewPasswordProps } from './types';
+
 import {
 	createFieldValidator,
 	Types as ValidationsTypes,
@@ -10,8 +12,9 @@ import {
 import { Input, Button, ValidationList } from 'components';
 
 import { PASSWORD_VALIDATIONS_LIST, passwordFieldValidator } from './constants';
+import RecoverPassword from 'actions/recoverPassword';
 
-const NewPassword: Component = () => {
+const NewPassword: Component<NewPasswordProps> = ({ userId, token }) => {
 	const [password, setPassword] = React.useState<string>('');
 	const [confirmPassword, setConfirmPassword] = React.useState<string>('');
 
@@ -23,6 +26,12 @@ const NewPassword: Component = () => {
 		validateIfIsDiferentPassword,
 		'As senhas devem ser iguais.'
 	);
+
+	const handleOnCLick = async () => {
+		const { ok } = await RecoverPassword({ password, userId, token });
+
+		if (ok) window.location.href = '/auth/login';
+	};
 
 	const hasErrorInPasswords = Boolean(
 		passwordFieldValidator(password) ||
@@ -54,7 +63,12 @@ const NewPassword: Component = () => {
 				value={password}
 			/>
 
-			<Button label='Enviar' disabled={hasErrorInPasswords} className='mt-8' />
+			<Button
+				label='Enviar'
+				disabled={hasErrorInPasswords}
+				className='mt-8'
+				onClick={handleOnCLick}
+			/>
 		</>
 	);
 };

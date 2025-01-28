@@ -26,3 +26,34 @@ export const postRecoveryPassword = async (
 		throw error;
 	}
 };
+
+export const postConfirmAccount = async (
+	payload: Types.ConfirmAccountPayload
+): Promise<IResponseData<Types.LoginResponse>> => {
+	try {
+		const { data } = await API.post('confirm-email', payload);
+
+		return data;
+	} catch (error) {
+		throw error;
+	}
+};
+
+export const putResetPassword = async ({
+	userId,
+	password,
+	token,
+}: Types.RecoverPasswordParams): Promise<
+	IResponseData<Types.LoginResponse>
+> => {
+	try {
+		const { data } = await API.put(`user/reset-password/${userId}`, {
+			password,
+			token,
+		});
+
+		return data;
+	} catch (error) {
+		throw error;
+	}
+};

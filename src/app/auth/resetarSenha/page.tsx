@@ -4,15 +4,19 @@ import Title from 'components/Title';
 import RecoverPassword from 'components/Auth/RecoverPassword';
 
 const PasswordResetPage: Page<'PasswordReset'> = async ({ searchParams }) => {
-	const { login, key } = await searchParams;
+	const { id, key } = await searchParams;
 
-	const isNotAccredited = !login || !key;
+	const isNotAccredited = !id || !key;
 
 	return (
 		<>
 			<Title text='Resetar Senha' className='!text-[2rem] mb-8' />
 
-			<RecoverPassword isNotAccredited={isNotAccredited} />
+			<RecoverPassword
+				isNotAccredited={isNotAccredited}
+				userId={id}
+				token={key}
+			/>
 		</>
 	);
 };

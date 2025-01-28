@@ -16,7 +16,6 @@ const SendPasswordResetEmail = async (
 	formData: FormData
 ): Promise<Types.SendPasswordResetEmailResponse> => {
 	try {
-		console.log(formData);
 		const email = formData.get('email') as string | null;
 
 		if (!email) return handleOnError('Preencha o email');

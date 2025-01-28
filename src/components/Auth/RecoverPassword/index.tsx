@@ -14,6 +14,8 @@ import ErrorMessage from 'components/ErrorMessage';
 import * as Types from './types';
 
 const RecoverPassword: Component<Types.RecoverPasswordProps> = ({
+	userId,
+	token,
 	isNotAccredited,
 }) => {
 	const [state, sendPasswordResetEmailAction, isPending] = React.useActionState(
@@ -27,7 +29,7 @@ const RecoverPassword: Component<Types.RecoverPasswordProps> = ({
 
 	const containerClassName = classNames('flex flex-col gap-4');
 
-	if (!isNotAccredited) return <NewPassword />;
+	if (!isNotAccredited) return <NewPassword userId={userId} token={token} />;
 
 	return (
 		<form action={sendPasswordResetEmailAction} className={containerClassName}>
@@ -45,7 +47,7 @@ const RecoverPassword: Component<Types.RecoverPasswordProps> = ({
 			<Button
 				type='submit'
 				disabled={isPending}
-				label={isPending ? 'Enviando...' : 'Entrar'}
+				label={isPending ? 'Enviando...' : 'Enviar'}
 			/>
 		</form>
 	);

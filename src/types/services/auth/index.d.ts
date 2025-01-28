@@ -17,3 +17,14 @@ export type LoginResponse = {
 	refresh_token: string;
 	user: IAuthUser;
 };
+
+export type ConfirmAccountPayload = {
+	user_id: number;
+	confirmation_code: string;
+};
+
+export type RecoverPasswordParams = {
+	userId: string;
+	password: string;
+	token: string;
+};

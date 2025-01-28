@@ -1,23 +1,40 @@
 'use server';
 
 import * as Types from './types';
+import { RecoverPasswordParams } from 'types/services/auth';
 
-const RecoverPassword = async (
-	_: any
-): Promise<Types.RecoverPasswordResponse> => {
+import { putResetPassword } from 'core/services/auth';
+
+const RecoverPassword = async ({
+	password,
+	userId,
+	token,
+}: RecoverPasswordParams): Promise<Types.RecoverPasswordResponse> => {
 	try {
+		const { data, message, success } = await putResetPassword({
+			userId,
+			password,
+			token,
+		});
+
+		console.log('DATA', data, message, success);
+
+		if (!success) {
+			return {
+				ok: false,
+				error: message || 'Erro ao realizar ação!',
+				data: null,
+			};
+		}
+
 		return {
 			ok: true,
-			error: '',
-			data: {},
+			data: data.user,
 		};
 	} catch (error: unknown) {
-		const errorMessage =
-			error instanceof Error ? error.message : 'Erro ao realizar ação.';
-
 		return {
 			ok: false,
-			error: errorMessage,
+			error: error instanceof Error ? error.message : 'Erro ao realizar ação.',
 			data: null,
 		};
 	}
